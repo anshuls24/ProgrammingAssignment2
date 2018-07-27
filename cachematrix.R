@@ -1,15 +1,36 @@
-## Put comments here that give an overall description of what your
-## functions do
+## write two codes in R that includes the properties of functions in code writing- the two codes are: makeCacheMatrix and cacheSolve
+## these two codes help to cache the inverse of a given matrix.
 
-## Write a short comment describing this function
+## this first code helps to create a special matrix object that can cache the inverse of an input.
+## the matrix will be a square matrix only cause an inverse can only be calculated using a square matrix.
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        inv <- NULL
+        set <- function(y){
+                x<<- y
+                inv <<- NULL
+                }
+        get <- function() x
+        setinv <- function(inverse) inv <<- inverse
+        getinv <- function() inv
+        
+        list(set=set, get=get, setinv=setinv, getinv=getinv)
 }
 
 
-## Write a short comment describing this function
+##  This function computes the inverse of the special "matrix" returned by makeCacheMatrix above. 
+## If the inverse has already been calculated (and the matrix has not changed), then the cachesolve 
+## should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+        inv <- x$getinv()
+        if(!is.null(inv)){
+                message("getting cached result")
+                return(inv)
+                }
+        data <- x$get()
+        inv <- solve(data, ...)
+        x$setinv(inv)
+        inv
 }
